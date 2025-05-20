@@ -3,7 +3,7 @@
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 <script>
 (async () => {
-  await liff.init({ liffId: 'YOUR_LIFF_ID' });          // ←差し替え
+  await liff.init({ liffId: '2007446662-RezMXblk' });          // ←差し替え
   const uid   = (await liff.getProfile()).userId;       // 顧客LINE UID
   const staff = new URLSearchParams(location.search).get('staff') || 'unknown';
   await liff.sendMessages([{
