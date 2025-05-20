@@ -3,14 +3,39 @@
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 <script>
 (async () => {
-  await liff.init({ liffId: '2007446662-RezMXblk' });          // ←差し替え
-  const uid   = (await liff.getProfile()).userId;       // 顧客LINE UID
+  /* ---------- ① init ---------- */
+  try {
+    console.log('init start');
+    await liff.init({ liffId: '2007446662-RezMXblk' });
+    console.log('init done');
+  } catch(e) {
+    alert('LIFF init error ➜ ' + e);
+    return;
+  }
+
+  /* ---------- ② getProfile ---------- */
+  let uid = 'unknown';
+  try {
+    uid = (await liff.getProfile()).userId;
+    console.log('uid', uid);
+  } catch(e) {
+    alert('getProfile error ➜ ' + e);
+  }
+
+  /* ---------- ③ sendMessages ---------- */
   const staff = new URLSearchParams(location.search).get('staff') || 'unknown';
-  await liff.sendMessages([{
-    type: 'text',
-    text: JSON.stringify({ type:'qr', customer_id: uid, staff_id: staff })
-  }]);
-  liff.closeWindow();                                   // 受付QRなので即終了
+  try {
+    await liff.sendMessages([{
+      type:'text',
+      text: JSON.stringify({ type:'qr', customer_id: uid, staff_id: staff })
+    }]);
+    console.log('sendMessages ok');
+  } catch(e) {
+    alert('sendMessages error ➜ ' + e);
+  }
+
+  /* ---------- ④ close ---------- */
+  liff.closeWindow();
 })();
 </script>
 </body></html>
